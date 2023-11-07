@@ -17,8 +17,8 @@ namespace linalg
             void SetY(T val); 
             T GetZ() const;
             void SetZ(T val); 
-            static Vector3d<T> Cross(Vector3d<T>& a, Vector3d<T>& b);
-            static T Dot(Vector3d<T>& a, Vector3d<T>& b);
+            Vector3d<T> Cross(Vector3d<T>& a, Vector3d<T>& b);
+            T Dot(Vector3d<T>& a, Vector3d<T>& b);
 
         private:
             T m_x;
@@ -100,15 +100,19 @@ template<typename T>
 linalg::Vector3d<T> linalg::Vector3d<T>::Cross(Vector3d<T>& a, Vector3d<T>& b)
 {
     //TODO fix cross
-    linalg::Vector3d<T> ref;
-    return ref;
+    linalg::Vector3d<T> res;
+    res.SetX(a.GetY()*b.GetZ() - a.GetZ()*b.GetY());
+    res.SetY(a.GetX()*b.GetZ() - a.GetZ()*b.GetX());
+    res.SetZ(a.GetX()*b.GetX() - a.GetY()*b.GetX());
+    return res;
 }
 
 template<typename T>
 T linalg::Vector3d<T>::Dot(Vector3d<T>& a, Vector3d<T>& b)
 {
     //TODO: fix dot product
-    return a.GetX();
+    T rVal = a.GetX()*b.GetX() + a.GetY()*b.GetY() + a.GetZ()*b.GetZ();
+    return rVal;
 }
 
 //Operator overloads
