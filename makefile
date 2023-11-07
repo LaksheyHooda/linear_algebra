@@ -1,12 +1,14 @@
 linkTarget = linear_algebra
 
+CXX = g++
 CFLAGS = -std=c++17
 
-objects = main.o \
-					$(patsubst %.cpp,%.o,$(wildcard ./src/*.cpp))
+sources = main.cpp \
+          ./src/vector3d.cpp
+objects = $(patsubst %.cpp,%.o,$(sources))
 
 # Define the rebuildables.
-rebuildables = $(objects) $(linkTarget)
+# rebuildables = $(objects) $(linkTarget)
 
 # Rule to actually perform the build.
 $(linkTarget): $(objects)
@@ -16,6 +18,6 @@ $(linkTarget): $(objects)
 %.o: %.cpp
 	g++ -o $@ -c $< $(CFLAGS)
 
-.PHONEY:
+.PHONY: clean
 clean:
-	rm $(rebuildables)
+	rm -f $(linkTarget) $(objects)
