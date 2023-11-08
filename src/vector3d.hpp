@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <cmath>
 
 namespace linalg
 {
@@ -17,8 +18,10 @@ namespace linalg
             void SetY(T val); 
             T GetZ() const;
             void SetZ(T val); 
-            Vector3d<T> Cross(Vector3d<T>& a, Vector3d<T>& b);
-            T Dot(Vector3d<T>& a, Vector3d<T>& b);
+            static Vector3d<T> Cross(Vector3d<T>& a, Vector3d<T>& b);
+            static T Dot(Vector3d<T>& a, Vector3d<T>& b);
+            static double Magnitude(Vector3d<T>& a);
+            static Vector3d<T> UnitVector(Vector3d<T>& a);
 
         private:
             T m_x;
@@ -99,23 +102,43 @@ void linalg::Vector3d<T>::SetZ(T val)
 template<typename T>
 linalg::Vector3d<T> linalg::Vector3d<T>::Cross(Vector3d<T>& a, Vector3d<T>& b)
 {
-    //TODO fix cross
     linalg::Vector3d<T> res;
     res.SetX(a.GetY()*b.GetZ() - a.GetZ()*b.GetY());
-    res.SetY(a.GetX()*b.GetZ() - a.GetZ()*b.GetX());
-    res.SetZ(a.GetX()*b.GetX() - a.GetY()*b.GetX());
+    res.SetY(-(a.GetX()*b.GetZ() - a.GetZ()*b.GetX()));
+    res.SetZ(a.GetX()*b.GetY() - a.GetY()*b.GetX());
     return res;
 }
 
 template<typename T>
 T linalg::Vector3d<T>::Dot(Vector3d<T>& a, Vector3d<T>& b)
 {
-    //TODO: fix dot product
     T rVal = a.GetX()*b.GetX() + a.GetY()*b.GetY() + a.GetZ()*b.GetZ();
     return rVal;
 }
 
-//Operator overloads
+template<typename T>
+double linalg::Vector3d<T>::Magnitude(Vector3d<T>& a)
+{
+    double magnitude = sqrt(pow(a.GetX(),2) + pow(a.GetY(),2) + pow(a.GetZ(),2));
+    return magnitude;
+}
+
+template<typename T>
+linalg::Vector3d<T> linalg::Vector3d<T>::UnitVector(Vector3d<T>& a)
+{
+    linalg::Vector3d<T> res;
+    double magnitude = linalg::Vector3d<T>::Magnitude(a);
+    res.SetX(a.GetX() / magnitude);
+    res.SetY(a.GetY() / magnitude);
+    res.SetZ(a.GetZ() / magnitude);
+    return res;
+}
+
+
+/**********************************************************************************************
+                        ***************OPERATION OVERLOADS**************
+**********************************************************************************************/      
+
 template<typename T>
 std::ostream & operator << (std::ostream &out, const linalg::Vector3d<T> &v)
 {
@@ -141,4 +164,5 @@ linalg::Vector3d<T> operator*(linalg::Vector3d<T> const& vector1, T const num)
     res.SetX(vector1.GetX() * num); 
     res.SetY(vector1.GetY() * num); 
     res.SetZ(vector1.GetZ() * num); 
+    return res;
 }
