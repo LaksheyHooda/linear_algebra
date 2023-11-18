@@ -1,4 +1,6 @@
-#pragma once
+#ifndef VECTOR3D_H
+#define VECTOR3D_H
+
 #include <iostream>
 #include <cmath>
 
@@ -31,10 +33,6 @@ namespace linalg
     };
 }
 
-/**********************************************************************************************
-                        ***************METHOD DECLORATIONS**************
-**********************************************************************************************/
-//Default constructor create a vector <0, 0, 0>
 template <typename T>
 linalg::Vector3d<T>::Vector3d() 
 {
@@ -134,7 +132,6 @@ linalg::Vector3d<T> linalg::Vector3d<T>::UnitVector(Vector3d<T>& a)
     return res;
 }
 
-
 /**********************************************************************************************
                         ***************OPERATION OVERLOADS**************
 **********************************************************************************************/      
@@ -166,3 +163,5 @@ linalg::Vector3d<T> operator*(linalg::Vector3d<T> const& vector1, T const num)
     res.SetZ(vector1.GetZ() * num); 
     return res;
 }
+
+#endif

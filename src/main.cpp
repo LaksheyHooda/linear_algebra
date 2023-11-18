@@ -1,5 +1,5 @@
 #include <iostream>
-#include "src/vector3d.hpp"
+#include "vector3d.hpp"
 
 int main(int argc, char** argv)
 {
